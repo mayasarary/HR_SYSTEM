@@ -25,13 +25,12 @@ class Employee(models.Model):
 class AttendanceRecords(models.Model):
     employee = models.ForeignKey('Employee', on_delete=models.CASCADE, null=True, blank=True)
     attendance_date = models.DateField()
-    schedule_start_date = models.DateField()
-    schedule_end_date = models.DateField()
+    working_start = models.DateField()
+    working_end = models.DateField()
     check_in_date = models.DateField()
     check_out_date = models.DateField()
     status = models.CharField(max_length=100)
     late_minutes = models.IntegerField()
-    early_departure = models.IntegerField()
     overtime_minutes = models.IntegerField()
     notes = models.TextField()
 
