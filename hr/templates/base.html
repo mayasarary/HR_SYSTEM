@@ -1,0 +1,33 @@
+<!doctype html>
+{% load static %}
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>HR System</title>
+    <link href="{% static 'tabler/css/tabler.min.css' %}" rel="stylesheet">
+</head>
+
+<body>
+<div class="page">
+    <div class="navbar navbar-vertical navbar-expand-lg" data-bs-theme="dark" >
+
+        <div class="container-fluid">
+            <h1 class="navbar-brand">HR System</h1>
+            
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav pt-lg-3">
+                    <li class="nav-item"><a class="nav-link" href="#">Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Employees</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Departments</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Attendance</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="{% static 'tabler/js/tabler.min.js' %}"></script>
+</body>
+</html>

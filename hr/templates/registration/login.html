@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>HR System | Login</title>
+
+    <link href="{% static 'tabler/css/tabler.min.css' %}" rel="stylesheet">
+</head>
+
+<body class="bg-light">
+
+<div class="container-fluid min-vh-100">
+    <div class="row min-vh-100">
+        <div class="col-md-6 text-white p-5 d-flex align-items-center" style="background-color: #f3a8bd";>
+            <div>
+                <h1 class="text-white fw-bold p-5" style="text-align: center; background-color: #f3a8bd;">HR System</h1>
+            </div>
+        </div>
+
+        <div class="col-md-6 p-5 d-flex flex-column justify-content-center" style="background-color: #fcf3f6;">
+            <div class="card shadow-sm p-4 mx-auto w-100"  style="max-width: 420px;">
+                <div class="mb-4">
+                    <h2 class="card-title">Welcome Back</h2>
+                    <p class="text-dark mb-2">Sign in to your HR account.</p>
+                </div>
+
+                <form id="loginForm" action="">
+                    <div >
+                        <label class="form-label" >Username</label>
+                        <input type="text" class="form-control" placeholder="username" style="border-color: #f3a8bd;" >
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Password</label>
+                        <div class="input-group">
+                            <input type="password" class="form-control" placeholder="password" style="border-color: #f3a8bd;">
+                            <button type="button" class="btn btn-outline-pink">Show</button>
+                        </div>
+                    </div>
+
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input">
+                        <label class="form-check-label">Remember me</label>
+                    </div>
+
+                    <div class="mb-3"><a href="#">Forgot password?</a></div>
+
+                    <form action="{% url 'base_test' %}" >
+                        <button type="submit" class="btn text-white" style="background-color: #f3a8bd; border-color: #f3a8bd;">Sign in</button>
+                    </form>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="{% static 'tabler/js/tabler.min.js' %}"></script>
+</body>
+</html>
