@@ -1,0 +1,29 @@
+
+{% load i18n %}
+<div class="row row-cards mb-4">
+  <div class="col-lg-8">
+    <section class="card h-100">
+      <div class="card-header">
+        <h3 class="card-title">{% translate "Hiring activity" %}</h3><span class="ms-auto text-secondary small">{% translate "Last 6 months" %}</span>
+      </div>
+      <div class="card-body">
+        <div id="dashboard-hiring-chart" class="dashboard-chart" aria-label="{% translate "New hires over the last six months" %}"></div>
+        <details class="mt-2">
+          <summary class="text-secondary">{% translate "View chart data" %}</summary>
+          <ul class="list-unstyled mt-2" id="hiring-data"></ul>
+        </details>
+      </div>
+    </section>
+  </div>
+  <div class="col-lg-4">
+    <section class="card h-100">
+      <div class="card-header">
+        <h3 class="card-title">{% translate "Contract distribution" %}</h3>
+      </div>
+      <div class="card-body">
+        <div id="dashboard-contract-chart" class="dashboard-chart" aria-label="{% translate "Employee count by contract type" %}"></div>
+        <ul class="list-unstyled mb-0" id="contract-data"></ul>
+      </div>
+    </section>
+  </div>
+</div>

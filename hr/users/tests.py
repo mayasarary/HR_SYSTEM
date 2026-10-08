@@ -7,7 +7,8 @@ class LoginTests(TestCase):
     @classmethod
     def setUpTestData(cls):
         cls.user = get_user_model().objects.create_user(
-            username='employee', password='test-password-123'
+            username='employee', email='employee@example.com',
+            password='test-password-123'
         )
 
     def test_login_page(self):
@@ -59,3 +60,25 @@ class LoginTests(TestCase):
             'username': 'employee', 'password': 'test-password-123',
         })
         self.assertEqual(response.status_code, 403)
+
+
+class UserManagerTests(TestCase):
+    def test_create_superuser(self):
+        user = get_user_model().objects.create_superuser(
+            username='admin', email='admin@example.com', password='test-password-123'
+        )
+        self.assertTrue(user.is_staff)
+        self.assertTrue(user.is_superuser)
+        self.assertTrue(user.check_password('test-password-123'))
+
+    def test_superuser_requires_permission_flags(self):
+        for flag in ('is_staff', 'is_superuser'):
+            with self.subTest(flag=flag):
+                with self.assertRaisesMessage(ValueError, f'Superuser must have {flag}=True'):
+                    get_user_model().objects.create_superuser(
+                        username='admin', email='admin@example.com',
+                        password='test-password-123', **{flag: False}
+                    )
+
+    def test_user_keeps_users_app_label(self):
+        self.assertEqual(get_user_model()._meta.app_label, 'users')

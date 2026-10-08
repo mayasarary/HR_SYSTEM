@@ -1,0 +1,33 @@
+
+{% load i18n %}
+<header class="navbar navbar-expand-md d-print-none sticky-top"
+        style="top:0;z-index:1020;background:var(--tblr-bg-surface, #fff)">
+
+  <div class="container-xl">
+    <h1 class="navbar-brand m-0">{% translate page_title|default:'Dashboard' %}</h1>
+    <div class="navbar-nav flex-row order-md-last align-items-center gap-3">
+
+      {% include 'includes/language_selector.html' %}
+        <button class="btn btn-icon"
+              id="theme-toggle"
+              type="button"
+              aria-label="{% translate "Switch color theme" %}">&#9680;</button>
+
+      <div class="nav-item dropdown">
+        <button class="nav-link dropdown-toggle" data-bs-toggle="dropdown" type="button" aria-expanded="false">
+          <span class="avatar avatar-sm me-2">HR</span>
+          <span>{{ request.user.username|default:"HR Admin" }}</span>
+        </button>
+
+        <div class="dropdown-menu dropdown-menu-end">
+          <span class="dropdown-header">{{
+            request.user.email|default:"Interface preview" }}</span>
+          <a class="dropdown-item" href="#forms">{% translate "Profile form preview" %}</a>
+          <a class="dropdown-item" href="{% url 'logout' %}">{% translate "Log out" %}</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+

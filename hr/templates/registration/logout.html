@@ -1,0 +1,19 @@
+{% extends 'plain.html' %}
+{% load i18n %}
+{% block title %}{% translate "Log out" %} | {% translate "HR System" %}{% endblock %}
+{% block page_title %}{% translate "Log out" %}{% endblock %}
+{% block content %}
+<section class="card mx-auto" style="max-width:520px">
+  <div class="card-body text-center py-5">
+    <h2 class="card-title justify-content-center mb-3">{% translate "Log out of HR System" %}</h2>
+    <p class="text-secondary">{% translate "Your saved employee and department data will remain available when you sign in again." %}</p>
+    <form method="post" action="{% url 'logout' %}">
+      {% csrf_token %}
+      <div class="d-flex justify-content-center gap-2 mt-4">
+        <a class="btn" href="{% url 'dashboard' %}">{% translate "Cancel" %}</a>
+        <button class="btn btn-danger" type="submit">{% translate "Log out" %}</button>
+      </div>
+    </form>
+  </div>
+</section>
+{% endblock %}

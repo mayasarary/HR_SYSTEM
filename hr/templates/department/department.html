@@ -1,0 +1,44 @@
+{% extends 'plain.html' %}
+{% load i18n %}
+
+{% block title %}{% translate "Departments" %} | {% translate "HR System" %}{% endblock %}
+{% block page_title %}{% translate "Departments" %}{% endblock %}
+{% block extra_css %}
+
+<style>
+.department-grid {max-width:1100px;margin:1rem auto;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1.25rem;list-style:none;padding:0}
+.department-box {border-radius:16px;min-height:160px;transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease}
+.department-box .card-body {display:flex;flex-direction:column;justify-content:center;align-items:center;gap:1rem;text-align:center;padding:1.5rem}
+.department-box .avatar {width:48px;height:48px;border-radius:14px}
+.department-box .card-body {color:inherit;text-decoration:none;height:100%}
+.department-box:focus-within {outline:2px solid var(--tblr-primary);outline-offset:3px}
+.department-add {border:2px dashed var(--tblr-border-color);background:var(--tblr-bg-surface-secondary)}
+@media(hover:hover){.department-box:hover {transform:translateY(-6px) scale(1.02);box-shadow:0 12px 28px rgba(0,0,0,.14);border-color:var(--tblr-primary)}}
+@media(max-width:991px){.department-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.department-box:last-child{grid-column:auto}}
+@media(max-width:575px){.department-grid{grid-template-columns:1fr;gap:1rem}.department-box{min-height:140px}}
+@media(prefers-reduced-motion:reduce){.department-box{transition:none}.department-box:hover{transform:none}}
+</style>
+
+{% endblock %}
+{% block content %}
+<section  aria-label="أقسام الشركة">
+  <ul class="department-grid">
+    {% for department in departments %}
+    <li class="card department-box">
+      <a class="card-body" href="{% url 'department_employees' department.code %}">
+        <span class="avatar bg-blue-lt" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V5l7-2 7 2v16M9 9h1m4 0h1M9 13h1m4 0h1M10 21v-4h4v4"/></svg></span>
+        <h3 class="card-title mb-0">{{ department.name }}</h3>
+      </a>
+    </li>
+    {% endfor %}
+    {% if perms.employees.add_department %}
+    <li class="card department-box department-add" >
+      <a class="card-body" href="{% url 'department_add' %}">
+        <span class="avatar bg-blue-lt" aria-hidden="true">+</span>
+        <h3 class="card-title mb-0">{% translate "Add Department" %}</h3>
+      </a>
+    </li>
+    {% endif %}
+  </ul>
+</section>
+{% endblock %}

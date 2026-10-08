@@ -1,63 +1,118 @@
-<!DOCTYPE html>
+
+{% load i18n %}
 {% load static %}
-<html lang="en" dir="ltr">
-
+<!doctype html>
+{% get_current_language as LANGUAGE_CODE %}
+{% get_current_language_bidi as LANGUAGE_BIDI %}
+<html lang="{{ LANGUAGE_CODE }}" dir="{{ LANGUAGE_BIDI|yesno:'rtl,ltr' }}">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>HR System | Login</title>
-
-    <link href="{% static 'tabler/css/tabler.min.css' %}" rel="stylesheet">
+  <meta charset="utf-8">
+  {% include 'includes/theme.html' %}
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% translate "Sign in" %} · {% translate "HR System" %}</title>
+  <link href="{% if LANGUAGE_BIDI %}{% static 'tabler/css/tabler.rtl.min.css' %}{% else %}{% static 'tabler/css/tabler.min.css' %}{% endif %}" rel="stylesheet">
 </head>
-
-<body class="bg-light">
-
-<div class="container-fluid min-vh-100">
-    <div class="row min-vh-100">
-        <div class="col-md-6 text-white p-5 d-flex align-items-center" style="background-color: #f3a8bd";>
-            <div>
-                <h1 class="text-white fw-bold p-5" style="text-align: center; background-color: #f3a8bd;">HR System</h1>
+<body class="d-flex flex-column">
+  <main class="page page-center">
+    <div class="container container-tight py-4">
+      <div class="text-center mb-4"><span class="navbar-brand navbar-brand-autodark">
+          <svg
+            xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" class="text-primary me-2" aria-hidden="true">
+            <path d="M3 21h18M5 21V5l7-2 7 2v16M9 9h1m4 0h1M9 13h1m4 0h1M10 21v-4h4v4" />
+          </svg>{% translate "HR System" %}</span>
+      </div>
+      <section class="card card-md" aria-labelledby="login-title">
+        <div class="card-body">
+          <h1 class="h2 text-center mb-4" id="login-title">{% translate "Login to your account" %}</h1>
+          {% if form.non_field_errors %}
+            <div class="alert alert-danger" role="alert">
+            {% for error in form.non_field_errors %}
+                <div>{{ error }}</div>
+                {% endfor %}
             </div>
-        </div>
+            {% endif %}
 
-        <div class="col-md-6 p-5 d-flex flex-column justify-content-center" style="background-color: #fcf3f6;">
-            <div class="card shadow-sm p-4 mx-auto w-100"  style="max-width: 420px;">
-                <div class="mb-4">
-                    <h2 class="card-title">Welcome Back</h2>
-                    <p class="text-dark mb-2">Sign in to your HR account.</p>
-                </div>
+          <form method="post">
+            {% csrf_token %}
+              {% if next %}
+              <input type="hidden" name="next" value="{{ next }}">
+              {% endif %}
 
-                <form id="loginForm" action="">
-                    <div >
-                        <label class="form-label" >Username</label>
-                        <input type="text" class="form-control" placeholder="username" style="border-color: #f3a8bd;" >
-                    </div>
+            <div class="mb-3">
+              <label class="form-label" for="id_username">{% translate "Username" %}</label>
+              <input type="text" name="username" id="id_username"
+                class="form-control{% if form.username.errors %} is-invalid{% endif %}" placeholder="{% translate "Your username" %}"
+                autocomplete="username" value="{{ form.username.value|default_if_none:'' }}" required autofocus
+                     {% if form.username.errors %}
+                     aria-invalid="true" aria-describedby="username-errors"
+                     {% endif %}>
 
-                    <div class="mb-3">
-                        <label class="form-label">Password</label>
-                        <div class="input-group">
-                            <input type="password" class="form-control" placeholder="password" style="border-color: #f3a8bd;">
-                            <button type="button" class="btn btn-outline-pink">Show</button>
-                        </div>
-                    </div>
-
-                    <div class="form-check">
-                        <input type="checkbox" class="form-check-input">
-                        <label class="form-check-label">Remember me</label>
-                    </div>
-
-                    <div class="mb-3"><a href="#">Forgot password?</a></div>
-
-                    <form action="{% url 'base_test' %}" >
-                        <button type="submit" class="btn text-white" style="background-color: #f3a8bd; border-color: #f3a8bd;">Sign in</button>
-                    </form>
-                </form>
+              {% if form.username.errors %}
+                <div class="invalid-feedback" id="username-errors">{{ form.username.errors }}</div>
+                {% endif %}
             </div>
+
+            <div class="mb-2">
+              <label class="form-label" for="id_password">{% translate "Password" %}{% url 'password_reset' as password_reset_url %}
+                  {% if password_reset_url %}
+                  <span class="form-label-description"><a href="{{ password_reset_url }}">
+                      {% translate "I forgot password" %}</a></span>
+                  {% endif %}</label>
+
+              <div class="input-group input-group-flat">
+                <input type="password" name="password" id="id_password"
+                  class="form-control{% if form.password.errors %} is-invalid{% endif %}" placeholder="{% translate "Your password" %}"
+                  autocomplete="current-password" required
+                       {% if form.password.errors %}
+                       aria-invalid="true"
+                       aria-describedby="password-errors"
+                       {% endif %}>
+                <span class="input-group-text"><button type="button" class="btn btn-link text-secondary p-0"
+                    id="password-toggle" aria-label="{% translate "Show password" %}" aria-pressed="false"
+                    aria-controls="id_password">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                      viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                      <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7S2 12 2 12Z" />
+                      <circle cx="12" cy="12" r="3" />
+                    </svg>
+                </button></span>
+              </div>
+                {% if form.password.errors %}
+                <div class="text-danger small mt-1" id="password-errors">{{
+                form.password.errors }}</div>
+                {% endif %}
+            </div>
+
+            <div class="mb-2 mt-3"><label class="form-check"><input type="checkbox" class="form-check-input"
+                  name="remember_me" value="1"
+                    {% if request.POST.remember_me %}
+                    checked
+                    {% endif %}>
+                <span
+                  class="form-check-label">{% translate "Remember me on this device" %}</span></label></div>
+            <div class="form-footer"><button type="submit" class="btn btn-primary w-100">{% translate "Sign in" %}</button></div>
+          </form>
         </div>
+      </section>
+
+      <div class="text-center text-secondary mt-3">
+          {% translate "Need an account? Contact your HR administrator." %}
+      </div>
+
+      <div class="text-center text-secondary small mt-4"> &copy; {% now "Y" %} {% translate "HR System" %}</div>
     </div>
-</div>
-
-<script src="{% static 'tabler/js/tabler.min.js' %}"></script>
+  </main>
+  <script src="{% static 'tabler/js/tabler.min.js' %}"></script>
+  <script>
+    document.getElementById('password-toggle').addEventListener('click', function () {
+      const password = document.getElementById('id_password');
+      const show = password.type === 'password';
+      password.type = show ? 'text' : 'password';
+      this.setAttribute('aria-label', show ? '{% translate "Hide password" as password_label %}{{ password_label|escapejs }}' : '{% translate "Show password" as password_label %}{{ password_label|escapejs }}');
+      this.setAttribute('aria-pressed', String(show));
+    });
+  </script>
 </body>
 </html>
+

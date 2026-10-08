@@ -1,0 +1,17 @@
+
+{% load i18n %}
+{% if attendance_today %}
+<section class="card">
+  <div class="card-header">
+    <h3 class="card-title">{% translate "Today's attendance" %}</h3>
+  </div>
+  <div class="card-body">
+    <div class="row g-3">
+        {% for label, count in attendance_today %}
+        <div class="col-6 col-md">
+        <div class="subheader">{% translate label %}</div>
+        <div class="h2 mb-0 mt-2">{{ count }}</div>
+      </div>{% endfor %}</div>
+  </div>
+</section>
+{% endif %}

@@ -1,0 +1,39 @@
+{% extends 'plain.html' %}
+{% load i18n %}
+
+{% load static %}
+{% block chart_library %}<script src="{% static 'tabler/libs/apexcharts/dist/apexcharts.min.js' %}"></script>{% endblock %}
+{% block page_pretitle %}{% endblock %}
+{% block title %}{% translate "Dashboard" %} | {% translate "HR System" %}{% endblock %}
+{% block page_title %}{% translate "Dashboard" %}{% endblock %}
+
+{% block extra_css %}
+<style>
+  .dashboard-stat .h1 {
+    font-size: 2rem;
+    margin: .75rem 0
+  }
+
+  .dashboard-chart {
+    min-height: 250px
+  }
+
+  .dashboard-avatar {
+    border-radius: 50%;
+    background: var(--tblr-primary-lt);
+    color: var(--tblr-primary)
+  }
+
+  .dashboard-welcome {
+    background: linear-gradient(120deg, var(--tblr-primary-lt), var(--tblr-bg-surface));
+    border-radius: 12px
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+{% include 'includes/dashboard.html' %}
+{% endblock %}
+{% block extra_js %}
+{% include 'includes/dashboard/chart_scripts.html' %}
+{% endblock %}

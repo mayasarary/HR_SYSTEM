@@ -1,31 +1,22 @@
+
+{% load i18n %}
 <!doctype html>
 {% load static %}
 
-<html lang="en">
+{% get_current_language as LANGUAGE_CODE %}
+{% get_current_language_bidi as LANGUAGE_BIDI %}
+<html lang="{{ LANGUAGE_CODE }}" dir="{{ LANGUAGE_BIDI|yesno:'rtl,ltr' }}">
 <head>
     <meta charset="utf-8">
+    {% include 'includes/theme.html' %}
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>HR System</title>
-    <link href="{% static 'tabler/css/tabler.min.css' %}" rel="stylesheet">
+    <title>{% translate "HR System" %}</title>
+    <link href="{% if LANGUAGE_BIDI %}{% static 'tabler/css/tabler.rtl.min.css' %}{% else %}{% static 'tabler/css/tabler.min.css' %}{% endif %}" rel="stylesheet">
 </head>
 
 <body>
 <div class="page">
-    <div class="navbar navbar-vertical navbar-expand-lg" data-bs-theme="dark" >
-
-        <div class="container-fluid">
-            <h1 class="navbar-brand">HR System</h1>
-            
-            <div class="collapse navbar-collapse">
-                <ul class="navbar-nav pt-lg-3">
-                    <li class="nav-item"><a class="nav-link" href="#">Dashboard</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Employees</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Departments</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Attendance</a></li>
-                </ul>
-            </div>
-        </div>
-    </div>
+    {% include 'includes/sidebar.html' %}
 </div>
 
 <script src="{% static 'tabler/js/tabler.min.js' %}"></script>

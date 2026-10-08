@@ -1,0 +1,229 @@
+{% extends 'plain.html' %}
+{% load i18n %}
+
+{% block page_pretitle %}{% endblock %}
+{% block title %}{% translate "Employee List" %} · {% translate "HR System" %}{% endblock %}
+{% block page_title %}{% translate "Employee List" %}{% endblock %}
+{% block extra_css %}
+<style>
+.directory-filter-panel {width:300px;max-width:calc(100vw - 3rem);padding:1.25rem;border-radius:12px;box-shadow:0 12px 32px rgba(0,0,0,.12)}
+.directory-filter-panel .form-label {font-weight:600;margin-bottom:.5rem}
+.directory-search {width:240px;max-width:100%}
+.directory-card {border-radius:14px}
+.directory-card .card-header {padding:1rem 1.25rem;gap:1rem;flex-wrap:wrap}
+@media(max-width:575px){.directory-tools{width:100%}.directory-search{flex:1;min-width:120px;width:auto}}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-end mb-3">
+    {% if perms.employees.add_employee %}
+    <a class="btn btn-primary" href="{% url 'employee_add' %}">＋ {% translate "Add a New Employee" %}</a>
+    {% endif %}
+</div>
+<section class="card directory-card" aria-label="{% translate "Employee directory" %}">
+    <div class="card-header justify-content-between">
+        <div class="text-secondary">{% translate "Total Employee:" %}
+            <strong class="text-body">{{ paginator.count }} {% translate "employee" %}{{ paginator.count|pluralize }}</strong>
+        </div>
+
+        <form method="get"
+              class="d-flex gap-2 flex-wrap align-items-center directory-tools">
+
+            <input class="form-control directory-search"
+                   type="search"
+                   name="q"
+                   value="{{ request.GET.q|default:'' }}"
+                   placeholder="{% translate "Search employee" %}"
+                   aria-label="{% translate "Search name, email or phone" %}">
+
+            <div class="dropdown">
+                <button class="btn"
+                        type="button"
+                        id="directory-filter-toggle"
+                        data-bs-toggle="dropdown"
+                        data-bs-auto-close="outside"
+                        aria-expanded="false">
+
+                    <span class="me-2" aria-hidden="true">&#9776;</span>
+                    {% translate "Filter" %}
+                    {% if request.GET.status or request.GET.contract %}
+                    <span class="badge bg-blue-lt ms-2">{% translate "Applied" %}</span>
+                    {% endif %}
+                </button>
+
+                <div class="dropdown-menu dropdown-menu-end directory-filter-panel"
+                     aria-labelledby="directory-filter-toggle">
+
+                    <div class="fw-semibold mb-3">{% translate "Filter employees" %}</div>
+                    <label class="form-label" for="status-filter">{% translate "Status" %}</label>
+                    <select class="form-select mb-2" name="status" id="status-filter">
+                        <option value="">{% translate "All statuses" %}</option>
+                        {% if request.GET.status == 'active' %}
+                        <option value="active" selected>{% translate "Active" %}</option>
+                        {% else %}
+                        <option value="active">{% translate "Active" %}</option>
+                        {% endif %}
+                        {% if request.GET.status == 'inactive' %}
+                        <option value="inactive" selected>{% translate "Inactive" %}</option>
+                        {% else %}
+                        <option value="inactive">{% translate "Inactive" %}</option>
+                        {% endif %}
+                    </select>
+
+                    <label class="form-label" for="contract-filter">{% translate "Contract type" %}</label>
+                    <select class="form-select mb-2" name="contract" id="contract-filter">
+                        <option value="">{% translate "All contracts" %}</option>
+                        {% for code, label in contract_choices %}
+                        {% if request.GET.contract == code %}
+                        <option value="{{ code }}" selected>{% translate label %}</option>
+                        {% else %}
+                        <option value="{{ code }}">{% translate label %}</option>
+                        {% endif %}
+                        {% endfor %}
+                    </select>
+
+                    <label class="form-label" for="sort-filter">{% translate "Sort by" %}</label>
+                    <select class="form-select" name="sort" id="sort-filter">
+                        <option value="pk">{% translate "Employee number" %}</option>
+                        {% if request.GET.sort == 'full_name' %}
+                        <option value="full_name" selected>{% translate "Name A–Z" %}</option>
+                        {% else %}
+                        <option value="full_name">{% translate "Name A–Z" %}</option>
+                        {% endif %}
+                        {% if request.GET.sort == '-full_name' %}
+                        <option value="-full_name" selected>{% translate "Name Z–A" %}</option>
+                        {% else %}
+                        <option value="-full_name">{% translate "Name Z–A" %}</option>
+                        {% endif %}
+                        {% if request.GET.sort == '-hire_date' %}
+                        <option value="-hire_date" selected>{% translate "Newest hires" %}</option>
+                        {% else %}
+                        <option value="-hire_date">{% translate "Newest hires" %}</option>
+                        {% endif %}
+                        {% if request.GET.sort == 'hire_date' %}
+                        <option value="hire_date" selected>{% translate "Oldest hires" %}</option>
+                        {% else %}
+                        <option value="hire_date">{% translate "Oldest hires" %}</option>
+                        {% endif %}
+                    </select>
+
+                    <div class="d-flex gap-2 mt-3 pt-3 border-top">
+                        <a class="btn flex-fill" href="{% url 'employee_list' %}">{% translate "Reset" %}</a>
+                        <button class="btn btn-primary flex-fill" type="submit">{% translate "Apply filters" %}</button>
+                    </div>
+                </div>
+            </div>
+
+            <button class="btn" type="submit">{% translate "Search" %}</button>
+            {% if request.GET %}
+            <a class="btn btn-link" href="{% url 'employee_list' %}">{% translate "Clear" %}</a>
+            {% endif %}
+        </form>
+    </div>
+
+    <div class="table-responsive">
+  <table class="table table-vcenter table-mobile-md card-table">
+    <thead>
+      <tr>
+        
+        <th class="w-1"><input class="form-check-input" type="checkbox" id="select-all" aria-label="{% translate 'Employees' %}"></th>
+        
+
+        <th>{% translate "Name" %}</th>
+        <th>{% translate "Position" %}</th>
+        <th>{% translate "Contract type" %}</th>
+        <th>{% translate "Status" %}</th>
+        <th>{% translate "Hire date" %}</th>
+        <th class="w-1"><span class="visually-hidden">{% translate "Actions" %}</span></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for employee in employees %}
+      <tr>
+        
+        <td><input class="form-check-input employee-select" type="checkbox" aria-label="{{ employee.full_name }}"></td>
+        
+
+        <td data-label="{% translate 'Name' %}">
+          <div class="d-flex py-1 align-items-center">
+            <span class="avatar me-3" aria-hidden="true">{{ employee.full_name|slice:':1'|upper }}</span>
+            <div class="flex-fill">
+              <div class="font-weight-medium"><a class="text-reset" href="{% url 'employee_details' employee.pk %}"><bdi>{{ employee.full_name }}</bdi></a></div>
+              <div class="text-secondary"><a class="text-reset" href="mailto:{{ employee.email }}"><bdi>{{ employee.email }}</bdi></a></div>
+              <div class="text-secondary small"><bdi>{{ employee.phone_number }}</bdi></div>
+            </div>
+          </div>
+        </td>
+        <td data-label="{% translate 'Position' %}">
+          <div><bdi>{% if employee.get_position_display %}{{ employee.get_position_display }}{% else %}{% translate "Not assigned" %}{% endif %}</bdi></div>
+          <div class="text-secondary"><bdi>{% if employee.get_department_display %}{{ employee.get_department_display }}{% else %}{% translate "Not assigned" %}{% endif %}</bdi></div>
+        </td>
+        <td class="text-secondary" data-label="{% translate 'Contract type' %}">{% translate employee.get_contract_type_display %}</td>
+        <td data-label="{% translate 'Status' %}">
+          {% if employee.employment_status %}
+          <span class="badge bg-green-lt">{% translate "Active" %}</span>
+          {% else %}
+          <span class="badge bg-red-lt">{% translate "Inactive" %}</span>
+          {% endif %}
+        </td>
+        <td class="text-secondary text-nowrap" data-label="{% translate 'Hire date' %}"><time datetime="{{ employee.hire_date|date:'Y-m-d' }}">{{ employee.hire_date|date:'Y-m-d' }}</time></td>
+        <td>
+          <div class="btn-list flex-nowrap">
+            <a class="btn" href="{% url 'employee_profile' employee.pk %}">{% translate "Profile" %}</a>
+            <div class="dropdown">
+              <button class="btn dropdown-toggle align-text-top" type="button" data-bs-toggle="dropdown" data-bs-boundary="viewport" aria-expanded="false">{% translate "Actions" %}</button>
+              <div class="dropdown-menu dropdown-menu-end">
+                <a class="dropdown-item" href="{% url 'employee_profile' employee.pk %}">{% translate "Edit" %}</a>
+                <a class="dropdown-item" href="{% url 'employee_details' employee.pk %}">{% translate "View employee details" %}</a>
+              </div>
+            </div>
+          </div>
+        </td>
+      </tr>
+      {% empty %}
+      <tr><td colspan="7" class="text-center text-secondary py-5">{% translate "No employees found." %}</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+    <div class="card-footer d-flex justify-content-between align-items-center flex-wrap gap-2">
+        <span class="text-secondary" id="selected-count">0 {% translate "selected" %}</span>
+        <span>{% translate "Page" %} {{ page_obj.number }} {% translate "of" %} {{ paginator.num_pages }}</span>
+        <div class="btn-list">{% if page_obj.has_previous %}
+            <a class="btn btn-sm" href="?{{ filter_query }}&amp;page={{ page_obj.previous_page_number }}">{% translate "Previous" %}</a>
+            {% endif %}
+            {% if page_obj.has_next %}
+            <a class="btn btn-sm" href="?{{ filter_query }}&amp;page={{ page_obj.next_page_number }}">{% translate "Next" %}</a>
+            {% endif %}
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+
+{% block extra_js %}
+<script>
+    (() => {
+        const all = document.getElementById('select-all');
+        const boxes = [...document.querySelectorAll('.employee-select')];
+
+        function update() {
+            const count = boxes.filter(box => box.checked).length;
+            all.checked = boxes.length > 0 && count === boxes.length;
+            all.indeterminate = count > 0 && count < boxes.length;
+            {% translate "selected" as selected_label %}
+            document.getElementById('selected-count').textContent = count + ' {{ selected_label|escapejs }}';
+        }
+
+        all.addEventListener('change', () => {boxes.forEach(box => box.checked = all.checked);update();});
+        boxes.forEach(box => box.addEventListener('change', update));
+    })();
+</script>
+{% endblock %}
+
+
+
+
+

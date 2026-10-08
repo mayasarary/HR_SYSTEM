@@ -1,0 +1,9 @@
+
+{% load i18n %}
+{% include 'includes/dashboard/welcome.html' %}
+{% include 'includes/dashboard/statistics.html' %}
+{% include 'includes/dashboard/charts.html' %}
+{% include 'includes/dashboard/employees.html' %}
+{% include 'includes/dashboard/attendance.html' %}
+{{ hiring_chart|json_script:'hiring-chart-data' }}
+{{ contract_chart|json_script:'contract-chart-data' }}

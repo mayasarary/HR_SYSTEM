@@ -46,6 +46,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -54,6 +55,9 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'hr.urls'
+
+AUTH_USER_MODEL = 'users.User'
+
 
 TEMPLATES = [
     {
@@ -106,7 +110,10 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/6.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'en'
+LANGUAGES = [('en', 'English'), ('ar', 'العربية')]
+LOCALE_PATHS = [BASE_DIR / 'locale']
+LANGUAGE_COOKIE_AGE = 60 * 60 * 24 * 365
 
 TIME_ZONE = 'UTC'
 

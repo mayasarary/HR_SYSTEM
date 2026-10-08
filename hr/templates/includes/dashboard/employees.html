@@ -1,0 +1,53 @@
+
+{% load i18n %}
+<div class="row row-cards mb-4">
+  <div class="col-lg-8">
+    <section class="card h-100">
+      <div class="card-header">
+        <h3 class="card-title">{% translate "Recent hires" %}</h3>
+          <a class="ms-auto" href="{% url 'employee_list' %}?sort=-hire_date">{% translate "View all" %}</a>
+      </div>
+      <div class="table-responsive">
+        <table class="table table-vcenter card-table">
+          <thead>
+            <tr>
+              <th>{% translate "Employee" %}</th>
+              <th>{% translate "Contract" %}</th>
+              <th>{% translate "Join date" %}</th>
+              <th>{% translate "Status" %}</th>
+            </tr>
+          </thead>
+          <tbody>{% for employee in recent_employees %}<tr>
+              <td>
+                <div class="d-flex align-items-center gap-2"><span class="avatar avatar-sm dashboard-avatar"
+                    aria-hidden="true">{{ employee.full_name|slice:':1'|upper }}</span><a class="text-reset"
+                    href="{% url 'employee_details' employee.pk %}">{{ employee.full_name }}</a></div>
+              </td>
+              <td>{% translate employee.get_contract_type_display %}</td>
+              <td>{{ employee.hire_date|date:'M j, Y' }}</td>
+              <td>{% if employee.employment_status %}
+                  <span class="badge bg-green-lt">{% translate "Active" %}</span>
+                  {% else %}<span class="badge bg-red-lt">{% translate "Inactive" %}</span>
+                  {% endif %}
+              </td>
+            </tr>{% empty %}<tr>
+              <td colspan="4" class="text-center text-secondary py-4">{% translate "No employees yet." %}</td>
+            </tr>{% endfor %}</tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+  <div class="col-lg-4">
+    <section class="card h-100">
+      <div class="card-header">
+        <h3 class="card-title">{% translate "Upcoming contract endings" %}</h3>
+      </div>
+      <div class="list-group list-group-flush">{% for employee in expiring_contracts %}<a
+          class="list-group-item list-group-item-action" href="{% url 'employee_details' employee.pk %}">
+          <div class="d-flex justify-content-between gap-2"><strong>{{ employee.full_name }}</strong><span
+              class="badge bg-yellow-lt">{{ employee.contract_end_date|date:'M j' }}</span></div>
+          <div class="text-secondary small mt-1">{% translate employee.get_contract_type_display %}</div>
+        </a>{% empty %}<div class="p-4 text-secondary">{% translate "No contracts ending in the next 30 days." %}</div>{% endfor %}</div>
+    </section>
+  </div>
+</div>

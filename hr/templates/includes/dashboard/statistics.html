@@ -1,0 +1,46 @@
+
+{% load i18n %}
+<div class="row row-cards mb-4">
+  <div class="col-sm-6 col-xl-3">
+    <div class="card dashboard-stat">
+      <div class="card-body">
+        <div class="subheader">{% translate "Total employees" %}</div>
+        <div class="h1">{{ totals.total }}</div>
+        <div class="text-secondary">{% translate "Total employees" %} {% translate "in the company" %}</div>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-6 col-xl-3">
+    <div class="card dashboard-stat">
+      <div class="card-body">
+        <div class="subheader">{% translate "Active employees" %}</div>
+        <div class="h1">{{ totals.active }}</div>
+        <div class="d-flex justify-content-between text-secondary"><span>{% translate "Of total workforce" %}</span><span>
+            {{active_percentage }}%</span></div>
+        <div class="progress progress-sm mt-2">
+          <div class="progress-bar bg-green" style="width:{{ active_percentage }}%" role="progressbar"
+            aria-valuenow="{{ active_percentage }}" aria-valuemin="0" aria-valuemax="100" aria-label="{% translate "Active workforce" %}">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-6 col-xl-3">
+    <div class="card dashboard-stat">
+      <div class="card-body">
+        <div class="subheader">{% translate "New hires" %}</div>
+        <div class="h1">{{ totals.new_hires }}</div>
+        <div class="text-secondary">{{ today|date:'F Y' }}</div>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-6 col-xl-3">
+    <div class="card dashboard-stat">
+      <div class="card-body">
+        <div class="subheader">{% translate "Contracts ending soon" %}</div>
+        <div class="h1">{{ expiring_count }}</div>
+        <div class="text-secondary">{% translate "Within the next 30 days" %}</div>
+      </div>
+    </div>
+  </div>
+</div>

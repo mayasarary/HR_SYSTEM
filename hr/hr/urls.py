@@ -15,15 +15,23 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.contrib.auth.views import LoginView, LogoutView
-from django.urls import path
+from django.urls import include, path
 from employees import views
-from users.forms import LoginForm
 
 
 urlpatterns = [
-
+    path('i18n/', include('django.conf.urls.i18n')),
     path('admin/', admin.site.urls),
-    path('base/', views.base_test, name='base_test'),
-    path('login/', views.login_view, name='login'),
+    path('base/', views.DashboardView.as_view(), name='base_test'),
+    path('dashboard/', views.DashboardView.as_view(), name='dashboard'),
+    path('base/departments/', views.DepartmentView.as_view(), name='department_list'),
+    path('base/departments/add/', views.DepartmentCreateView.as_view(), name='department_add'),
+    path('base/departments/<str:department>/', views.DepartmentEmployeesView.as_view(), name='department_employees'),
+    path('login/', views.LoginView.as_view(), name='login'),
+    path('logout/', views.LogoutView.as_view(), name='logout'),
+    path('base/employees/', views.EmployeeListView.as_view(), name='employee_list'),
+    path('base/employees/add/', views.EmployeeCreateView.as_view(), name='employee_add'),
+    path('base/employees/<int:pk>/profile/', views.EmployeeProfileView.as_view(), name='employee_profile'),
+    path('base/employees/<int:pk>/details/', views.EmployeeDetailsView.as_view(), name='employee_details'),
+    path('base/employees/<int:pk>/', views.EmployeeProfileView.as_view(), name='employee_detail'),
 ]

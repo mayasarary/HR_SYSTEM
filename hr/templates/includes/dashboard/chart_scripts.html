@@ -1,0 +1,18 @@
+
+{% load i18n %}
+<script>
+  (() => {
+    const hiring = JSON.parse(document.getElementById('hiring-chart-data').textContent);
+    const contracts = JSON.parse(document.getElementById('contract-chart-data').textContent);
+    function list(data, id) {const target = document.getElementById(id); data.labels.forEach((label, i) => {const item = document.createElement('li'); item.className = 'd-flex justify-content-between py-1'; const name = document.createElement('span'); name.textContent = label; const value = document.createElement('strong'); value.textContent = data.values[i]; item.append(name, value); target.appendChild(item);});}
+    list(hiring, 'hiring-data'); list(contracts, 'contract-data');
+    if (!window.ApexCharts) {document.getElementById('dashboard-hiring-chart').textContent = '{% translate "Chart unavailable. View the data below." as ui_text %}{{ ui_text|escapejs }}'; document.getElementById('dashboard-contract-chart').textContent = '{% translate "Contract counts are shown below." as ui_text %}{{ ui_text|escapejs }}'; return;}
+    const dark = document.documentElement.getAttribute('data-bs-theme') === 'dark';
+    const common = {theme: {mode: dark ? 'dark' : 'light'}, chart: {background: 'transparent', toolbar: {show: false}, height: 250}, colors: ['#066fd1', '#2fb344', '#f59f00', '#ae3ec9']};
+    const trend = new ApexCharts(document.getElementById('dashboard-hiring-chart'), {...common, chart: {...common.chart, type: 'area'}, series: [{name: '{% translate "New hires" as ui_text %}{{ ui_text|escapejs }}', data: hiring.values}], xaxis: {categories: hiring.labels}, yaxis: {min: 0, forceNiceScale: true, decimalsInFloat: 0}, stroke: {curve: 'smooth', width: 2}, dataLabels: {enabled: false}, fill: {type: 'gradient', gradient: {opacityFrom: .3, opacityTo: .05}}});
+    trend.render();
+    let distribution;
+    if (contracts.values.some(value => value > 0)) {distribution = new ApexCharts(document.getElementById('dashboard-contract-chart'), {...common, chart: {...common.chart, type: 'donut'}, series: contracts.values, labels: contracts.labels, legend: {show: false}, dataLabels: {enabled: false}, plotOptions: {pie: {donut: {size: '72%', labels: {show: true, total: {show: true, label: '{% translate "Employees" as ui_text %}{{ ui_text|escapejs }}'}}}}}}); distribution.render();} else {document.getElementById('dashboard-contract-chart').textContent = '{% translate "Add employees to see the contract distribution." as ui_text %}{{ ui_text|escapejs }}';}
+    new MutationObserver(() => {const mode = document.documentElement.getAttribute('data-bs-theme') === 'dark' ? 'dark' : 'light'; trend.updateOptions({theme: {mode}}); distribution?.updateOptions({theme: {mode}});}).observe(document.documentElement, {attributes: true, attributeFilter: ['data-bs-theme']});
+  })();
+</script>

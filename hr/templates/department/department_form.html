@@ -1,0 +1,22 @@
+{% extends 'plain.html' %}
+{% load i18n %}
+
+{% block title %}{% translate "Add Department" %} | {% translate "HR System" %}{% endblock %}
+{% block page_title %}{% translate "Add Department" %}{% endblock %}
+{% block content %}
+<div class="mx-auto" style="max-width:600px">
+  <a class="btn btn-outline-secondary mb-3" href="{% url 'department_list' %}">{% translate "Back to departments" %}</a>
+  <section class="card">
+    <div class="card-header"><h2 class="card-title">{% translate "New department" %}</h2></div>
+    <form method="post" action="{% url 'department_add' %}">
+      {% csrf_token %}
+      <div class="card-body">
+        {% for error in form.non_field_errors %}<div class="alert alert-danger" role="alert">{{ error }}</div>{% endfor %}
+        <label class="form-label d-block">{% translate "Department name" %} <span class="text-danger">*</span>{{ form.name }}</label>
+        {% for error in form.name.errors %}<div class="text-danger small" role="alert">{{ error }}</div>{% endfor %}
+      </div>
+      <div class="card-footer d-flex justify-content-end gap-2"><a class="btn" href="{% url 'department_list' %}">{% translate "Cancel" %}</a><button class="btn btn-primary" type="submit">{% translate "Save department" %}</button></div>
+    </form>
+  </section>
+</div>
+{% endblock %}

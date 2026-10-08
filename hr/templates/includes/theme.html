@@ -1,0 +1,30 @@
+
+{% load i18n %}
+<script>
+(() => {
+  const key = 'hr-system-theme';
+  const root = document.documentElement;
+  function apply(theme) {
+    root.setAttribute('data-bs-theme', theme);
+    const toggle = document.getElementById('theme-toggle');
+    if (toggle) {
+      toggle.setAttribute('aria-label', theme === 'dark' ? '{% translate "Switch to light theme" as ui_text %}{{ ui_text|escapejs }}' : '{% translate "Switch to dark theme" as ui_text %}{{ ui_text|escapejs }}');
+      toggle.setAttribute('aria-pressed', String(theme === 'dark'));
+    }
+  }
+  let saved;
+  try { saved = localStorage.getItem(key); } catch (_) {}
+  apply(saved === 'dark' || saved === 'light' ? saved : 'light');
+  document.addEventListener('DOMContentLoaded', () => {
+    apply(root.getAttribute('data-bs-theme'));
+    document.getElementById('theme-toggle')?.addEventListener('click', () => {
+      const theme = root.getAttribute('data-bs-theme') === 'dark' ? 'light' : 'dark';
+      apply(theme);
+      try { localStorage.setItem(key, theme); } catch (_) {}
+    });
+  });
+  window.addEventListener('storage', event => {
+    if (event.key === key && (event.newValue === 'light' || event.newValue === 'dark')) apply(event.newValue);
+  });
+})();
+</script>

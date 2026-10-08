@@ -1,0 +1,15 @@
+
+{% load i18n %}
+<div class="card dashboard-welcome mb-4">
+  <div class="card-body d-flex justify-content-between align-items-center flex-wrap gap-3">
+    <div>
+      <h2 class="mb-1">{% translate "Welcome back" %}, {{ request.user.first_name|default:request.user.username }}</h2>
+      <p class="text-secondary mb-0"> {{ today|date:'l, F j, Y' }}</p>
+    </div>
+    <div class="btn-list"><a class="btn" href="{% url 'employee_list' %}">{% translate "Employee directory" %}</a>
+        {% if perms.employees.add_employee %}
+        <a class="btn btn-primary" href="{% url 'employee_add' %}">+ {% translate "Add employee" %}</a>
+        {% endif %}
+    </div>
+  </div>
+</div>

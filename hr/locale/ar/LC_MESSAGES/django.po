@@ -1,0 +1,587 @@
+msgid ""
+msgstr "Content-Type: text/plain; charset=UTF-8\nLanguage: ar\nPlural-Forms: nplurals=6; plural=(n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5);\n"
+
+msgid "%(name)s joined on %(hired)s."
+msgstr "انضم %(name)s في %(hired)s."
+
+msgid "A department with this name already exists."
+msgstr "يوجد قسم بهذا الاسم بالفعل."
+
+msgid "Absent"
+msgstr "غائب"
+
+msgid "Action"
+msgstr "الإجراء"
+
+msgid "Actions"
+msgstr "الإجراءات"
+
+msgid "Active"
+msgstr "نشط"
+
+msgid "Active employee"
+msgstr "موظف نشط"
+
+msgid "Active employees"
+msgstr "الموظفون النشطون"
+
+msgid "Active workforce"
+msgstr "الموظفون النشطون"
+
+msgid "Add Department"
+msgstr "إضافة قسم"
+
+msgid "Add Employee"
+msgstr "إضافة موظف"
+
+msgid "Add a New Employee"
+msgstr "إضافة موظف جديد"
+
+msgid "Add department"
+msgstr "إضافة قسم"
+
+msgid "Add employee"
+msgstr "إضافة موظف"
+
+msgid "Add employees to see the contract distribution."
+msgstr "أضف موظفين لعرض توزيع العقود."
+
+msgid "Address"
+msgstr "العنوان"
+
+msgid "All contracts"
+msgstr "جميع العقود"
+
+msgid "All statuses"
+msgstr "جميع الحالات"
+
+msgid "Applied"
+msgstr "مطبق"
+
+msgid "Apply filters"
+msgstr "تطبيق التصفية"
+
+msgid "Attendance"
+msgstr "الحضور"
+
+msgid "Attendance today"
+msgstr "حضور اليوم"
+
+msgid "Back to departments"
+msgstr "العودة إلى الأقسام"
+
+msgid "Back to employees"
+msgstr "العودة إلى الموظفين"
+
+msgid "Basic salary"
+msgstr "الراتب الأساسي"
+
+msgid "Cancel"
+msgstr "إلغاء"
+
+msgid "Chart unavailable. View the data below."
+msgstr "الرسم غير متاح. عرض البيانات أدناه."
+
+msgid "Clear"
+msgstr "مسح"
+
+msgid "Contact"
+msgstr "الاتصال"
+
+msgid "Contact and personal details"
+msgstr "معلومات الاتصال والبيانات الشخصية"
+
+msgid "Contact information"
+msgstr "معلومات الاتصال"
+
+msgid "Contract"
+msgstr "العقد"
+
+msgid "Contract Type"
+msgstr "نوع العقد"
+
+msgid "Contract counts are shown below."
+msgstr "أعداد العقود موضحة أدناه."
+
+msgid "Contract dates"
+msgstr "تواريخ العقد"
+
+msgid "Contract distribution"
+msgstr "توزيع العقود"
+
+msgid "Contract end date"
+msgstr "تاريخ انتهاء العقد"
+
+msgid "Contract end date is required for this contract type."
+msgstr "تاريخ انتهاء العقد مطلوب لهذا النوع من العقود."
+
+msgid "Contract end must be on or after contract start."
+msgstr "يجب أن يكون انتهاء العقد في تاريخ البدء أو بعده."
+
+msgid "Contract start date"
+msgstr "تاريخ بدء العقد"
+
+msgid "Contract type"
+msgstr "نوع العقد"
+
+msgid "Contractor"
+msgstr "متعاقد"
+
+msgid "Contracts ending soon"
+msgstr "العقود التي تنتهي قريباً"
+
+msgid "Currency code"
+msgstr "العملة"
+
+msgid "Dashboard"
+msgstr "لوحة التحكم"
+
+msgid "Date of birth"
+msgstr "تاريخ الميلاد"
+
+msgid "Date of birth cannot be in the future."
+msgstr "لا يمكن أن يكون تاريخ الميلاد في المستقبل."
+
+msgid "Department"
+msgstr "القسم"
+
+msgid "Department added successfully."
+msgstr "تمت إضافة القسم بنجاح."
+
+msgid "Department name"
+msgstr "اسم القسم"
+
+msgid "Departments"
+msgstr "الأقسام"
+
+msgid "Edit profile"
+msgstr "تعديل الملف"
+
+msgid "Email"
+msgstr "البريد الإلكتروني"
+
+msgid "Employee"
+msgstr "الموظف"
+
+msgid "Employee %(name)s was added successfully."
+msgstr "تمت إضافة الموظف %(name)s بنجاح."
+
+msgid "Employee Details"
+msgstr "تفاصيل الموظف"
+
+msgid "Employee List"
+msgstr "قائمة الموظفين"
+
+msgid "Employee Profile"
+msgstr "ملف الموظف"
+
+msgid "Employee added successfully."
+msgstr "تمت إضافة الموظف بنجاح."
+
+msgid "Employee count by contract type"
+msgstr "عدد الموظفين حسب نوع العقد"
+
+msgid "Employee directory"
+msgstr "دليل الموظفين"
+
+msgid "Employee list"
+msgstr "قائمة الموظفين"
+
+msgid "Employee name"
+msgstr "اسم الموظف"
+
+msgid "Employee number"
+msgstr "رقم الموظف"
+
+msgid "Employee profile updated successfully."
+msgstr "تم تحديث ملف الموظف بنجاح."
+
+msgid "Employees"
+msgstr "الموظفون"
+
+msgid "Employees in"
+msgstr "الموظفون في"
+
+msgid "Employment and contract"
+msgstr "التوظيف والعقد"
+
+msgid "Employment status"
+msgstr "حالة التوظيف"
+
+msgid "Employment summary"
+msgstr "ملخص التوظيف"
+
+msgid "Female"
+msgstr "أنثى"
+
+msgid "Fields marked * are required."
+msgstr "الحقول المشار إليها بـ * مطلوبة."
+
+msgid "Filter"
+msgstr "تصفية"
+
+msgid "Filter employees"
+msgstr "تصفية الموظفين"
+
+msgid "Full Time"
+msgstr "دوام كامل"
+
+msgid "Full name"
+msgstr "الاسم الكامل"
+
+msgid "Full time"
+msgstr "دوام كامل"
+
+msgid "Full-Time"
+msgstr "دوام كامل"
+
+msgid "Full-time"
+msgstr "دوام كامل"
+
+msgid "Gender"
+msgstr "الجنس"
+
+msgid "HR System"
+msgstr "نظام الموارد البشرية"
+
+msgid "Half Day"
+msgstr "نصف يوم"
+
+msgid "Half day"
+msgstr "نصف يوم"
+
+msgid "Hide password"
+msgstr "إخفاء كلمة المرور"
+
+msgid "Hire date"
+msgstr "تاريخ التعيين"
+
+msgid "Hire date must be after date of birth."
+msgstr "يجب أن يكون تاريخ التعيين بعد تاريخ الميلاد."
+
+msgid "Hiring activity"
+msgstr "نشاط التعيين"
+
+msgid "Hiring trend"
+msgstr "اتجاه التعيين"
+
+msgid "I forgot password"
+msgstr "نسيت كلمة المرور"
+
+msgid "Inactive"
+msgstr "غير نشط"
+
+msgid "Intern"
+msgstr "متدرب"
+
+msgid "Join Date"
+msgstr "تاريخ التعيين"
+
+msgid "Join date"
+msgstr "تاريخ التعيين"
+
+msgid "Last 6 months"
+msgstr "آخر ستة أشهر"
+
+msgid "Last six months"
+msgstr "آخر ستة أشهر"
+
+msgid "Late"
+msgstr "متأخر"
+
+msgid "Leave"
+msgstr "إجازة"
+
+msgid "Linked login account"
+msgstr "حساب الدخول المرتبط"
+
+msgid "Log out"
+msgstr "تسجيل الخروج"
+
+msgid "Log out of HR System"
+msgstr "تسجيل الخروج من نظام الموارد البشرية"
+
+msgid "Login account"
+msgstr "حساب الدخول"
+
+msgid "Login to your account"
+msgstr "تسجيل الدخول إلى حسابك"
+
+msgid "Main navigation"
+msgstr "القائمة الرئيسية"
+
+msgid "Male"
+msgstr "ذكر"
+
+msgid "Name"
+msgstr "الاسم"
+
+msgid "Name A–Z"
+msgstr "الاسم تصاعدياً"
+
+msgid "Name Z–A"
+msgstr "الاسم تنازلياً"
+
+msgid "Need an account? Contact your HR administrator."
+msgstr "تحتاج إلى حساب؟ تواصل مع مسؤول الموارد البشرية."
+
+msgid "New department"
+msgstr "قسم جديد"
+
+msgid "New employee"
+msgstr "موظف جديد"
+
+msgid "New hires"
+msgstr "الموظفون الجدد"
+
+msgid "New hires over the last six months"
+msgstr "التعيينات خلال الأشهر الستة الأخيرة"
+
+msgid "Newest hire"
+msgstr "الأحدث تعييناً"
+
+msgid "Newest hires"
+msgstr "الأحدث تعييناً"
+
+msgid "Next"
+msgstr "التالي"
+
+msgid "No contracts ending in the next 30 days."
+msgstr "لا توجد عقود تنتهي خلال الثلاثين يوماً القادمة."
+
+msgid "No data available"
+msgstr "لا توجد بيانات"
+
+msgid "No employees found."
+msgstr "لم يتم العثور على موظفين."
+
+msgid "No employees in this department yet."
+msgstr "لا يوجد موظفون في هذا القسم بعد."
+
+msgid "No employees yet."
+msgstr "لا يوجد موظفون بعد."
+
+msgid "No end date"
+msgstr "بدون تاريخ انتهاء"
+
+msgid "Not assigned"
+msgstr "غير محدد"
+
+msgid "Not linked"
+msgstr "غير مرتبط"
+
+msgid "Not provided"
+msgstr "غير متوفر"
+
+msgid "Not specified"
+msgstr "غير محدد"
+
+msgid "Of total workforce"
+msgstr "من إجمالي الموظفين"
+
+msgid "Oldest hire"
+msgstr "الأقدم تعييناً"
+
+msgid "Oldest hires"
+msgstr "الأقدم تعييناً"
+
+msgid "On Leave"
+msgstr "في إجازة"
+
+msgid "Open profile"
+msgstr "فتح الملف"
+
+msgid "Page"
+msgstr "صفحة"
+
+msgid "Part Time"
+msgstr "دوام جزئي"
+
+msgid "Part time"
+msgstr "دوام جزئي"
+
+msgid "Part-Time"
+msgstr "دوام جزئي"
+
+msgid "Part-time"
+msgstr "دوام جزئي"
+
+msgid "Password"
+msgstr "كلمة المرور"
+
+msgid "Personal details"
+msgstr "البيانات الشخصية"
+
+msgid "Phone"
+msgstr "الهاتف"
+
+msgid "Phone number"
+msgstr "رقم الهاتف"
+
+msgid "Please correct the highlighted fields below."
+msgstr "يرجى تصحيح الحقول الموضحة أدناه."
+
+msgid "Position"
+msgstr "المسمى الوظيفي"
+
+msgid "Present"
+msgstr "حاضر"
+
+msgid "Previous"
+msgstr "السابق"
+
+msgid "Profile"
+msgstr "الملف الشخصي"
+
+msgid "Profile form preview"
+msgstr "معاينة الملف الشخصي"
+
+msgid "Recent employees"
+msgstr "الموظفون الجدد"
+
+msgid "Recent hires"
+msgstr "التعيينات الأخيرة"
+
+msgid "Remember me"
+msgstr "تذكرني"
+
+msgid "Remember me on this device"
+msgstr "تذكرني على هذا الجهاز"
+
+msgid "Reset"
+msgstr "إعادة تعيين"
+
+msgid "Salary and work hours"
+msgstr "الراتب وساعات العمل"
+
+msgid "Save changes"
+msgstr "حفظ التغييرات"
+
+msgid "Save department"
+msgstr "حفظ القسم"
+
+msgid "Save employee"
+msgstr "حفظ الموظف"
+
+msgid "Search"
+msgstr "بحث"
+
+msgid "Search employee"
+msgstr "البحث عن موظف"
+
+msgid "Search name, email or phone"
+msgstr "البحث بالاسم أو البريد أو الهاتف"
+
+msgid "Show password"
+msgstr "إظهار كلمة المرور"
+
+msgid "Showing"
+msgstr "عرض"
+
+msgid "Sign in"
+msgstr "تسجيل الدخول"
+
+msgid "Sign in to your account"
+msgstr "تسجيل الدخول إلى حسابك"
+
+msgid "Sort by"
+msgstr "ترتيب حسب"
+
+msgid "Status"
+msgstr "الحالة"
+
+msgid "Switch color theme"
+msgstr "تغيير المظهر"
+
+msgid "Switch to dark theme"
+msgstr "التبديل إلى المظهر الداكن"
+
+msgid "Switch to light theme"
+msgstr "التبديل إلى المظهر الفاتح"
+
+msgid "This month"
+msgstr "هذا الشهر"
+
+msgid "Today"
+msgstr "اليوم"
+
+msgid "Today's attendance"
+msgstr "حضور اليوم"
+
+msgid "Toggle navigation"
+msgstr "تبديل القائمة"
+
+msgid "Total Employee:"
+msgstr "إجمالي الموظفين:"
+
+msgid "Total employees"
+msgstr "إجمالي الموظفين"
+
+msgid "Upcoming contract endings"
+msgstr "العقود التي ستنتهي قريباً"
+
+msgid "Username"
+msgstr "اسم المستخدم"
+
+msgid "View all"
+msgstr "عرض الكل"
+
+msgid "View all employees"
+msgstr "عرض جميع الموظفين"
+
+msgid "View chart data"
+msgstr "عرض بيانات الرسم"
+
+msgid "View details"
+msgstr "عرض التفاصيل"
+
+msgid "View employee details"
+msgstr "عرض تفاصيل الموظف"
+
+msgid "Welcome back"
+msgstr "مرحباً بعودتك"
+
+msgid "Within the next 30 days"
+msgstr "خلال الثلاثين يوماً القادمة"
+
+msgid "Work end time"
+msgstr "وقت انتهاء العمل"
+
+msgid "Work start time"
+msgstr "وقت بدء العمل"
+
+msgid "Working end"
+msgstr "انتهاء العمل"
+
+msgid "Working hours"
+msgstr "ساعات العمل"
+
+msgid "Working start"
+msgstr "بدء العمل"
+
+msgid "Your password"
+msgstr "كلمة المرور"
+
+msgid "Your saved employee and department data will remain available when you sign in again."
+msgstr "ستبقى بيانات الموظفين والأقسام المحفوظة متاحة عند تسجيل الدخول مرة أخرى."
+
+msgid "Your username"
+msgstr "اسم المستخدم"
+
+msgid "employee"
+msgstr "موظف"
+
+msgid "in the company"
+msgstr "في الشركة"
+
+msgid "of"
+msgstr "من"
+
+msgid "results"
+msgstr "نتائج"
+
+msgid "selected"
+msgstr "محدد"
+
+msgid "to"
+msgstr "إلى"

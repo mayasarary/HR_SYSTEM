@@ -1,0 +1,45 @@
+
+{% load i18n %}
+<aside class="navbar navbar-vertical navbar-expand-lg" aria-label="{% translate "Main navigation" %}">
+  <div class="container-fluid flex-grow-1">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#sidebar-menu" aria-controls="sidebar-menu" aria-expanded="false" aria-label="{% translate "Toggle navigation" %}">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="navbar-brand navbar-brand-autodark">
+      <a class="text-reset text-decoration-none d-flex align-items-center gap-2" href="{% url 'base_test' %}">
+        <span class="avatar avatar-sm bg-primary text-white" aria-hidden="true">HR</span>
+        <span>{% translate "HR System" %}</span></a>
+    </div>
+    <div class="collapse navbar-collapse flex-grow-1 align-items-stretch" id="sidebar-menu">
+      {% with current=request.resolver_match.url_name %}
+      <ul class="navbar-nav pt-lg-3">
+        <li class="nav-item {% if current == 'base_test' or current == 'dashboard' %}active{% endif %}">
+          <a class="nav-link" href="{% url 'base_test' %}" aria-current="{% if current == 'base_test' or current == 'dashboard' %}page{% else %}false{% endif %}">
+            <span class="nav-link-icon d-md-none d-lg-inline-block" aria-hidden="true">&#8962;</span>
+            <span class="nav-link-title">{% translate "Dashboard" %}</span>
+          </a>
+        </li>
+        <li class="nav-item {% if current == 'employee_list' or current == 'employee_add' or current == 'employee_profile' or current == 'employee_details' or current == 'employee_detail' %}active{% endif %}">
+          <a class="nav-link" href="{% url 'employee_list' %}" aria-current="{% if current == 'employee_list' or current == 'employee_add' or current == 'employee_profile' or current == 'employee_details' or current == 'employee_detail' %}page{% else %}false{% endif %}">
+            <span class="nav-link-icon d-md-none d-lg-inline-block" aria-hidden="true">&#128100;</span>
+            <span class="nav-link-title">{% translate "Employees" %}</span>
+          </a>
+        </li>
+        <li class="nav-item {% if current == 'department_list' %}active{% endif %}">
+          <a class="nav-link" href="{% url 'department_list' %}" aria-current="{% if current == 'department_list' %}page{% else %}false{% endif %}">
+            <span class="nav-link-icon d-md-none d-lg-inline-block" aria-hidden="true">&#9638;</span>
+            <span class="nav-link-title">{% translate "Departments" %}</span>
+          </a>
+        </li>
+        <li class="nav-item"><span class="nav-link disabled" aria-disabled="true">
+          <span class="nav-link-icon d-md-none d-lg-inline-block" aria-hidden="true">&#128197;</span>
+          <span class="nav-link-title">{% translate "Attendance" %}</span>
+        </span></li>
+      </ul>
+      {% endwith %}
+      <div class="mt-auto border-top p-3 w-100">
+        <a class="btn btn-outline-danger w-100" href="{% url 'logout' %}">{% translate "Log out" %}</a>
+      </div>
+    </div>
+  </div>
+</aside>

@@ -1,0 +1,182 @@
+
+{% load i18n %}
+{% load static %}
+
+<!doctype html>
+{% get_current_language as LANGUAGE_CODE %}
+{% get_current_language_bidi as LANGUAGE_BIDI %}
+<html lang="{{ LANGUAGE_CODE }}" dir="{{ LANGUAGE_BIDI|yesno:'rtl,ltr' }}">
+<head>
+  <meta charset="utf-8">
+  {% include 'includes/theme.html' %}
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}{% translate "HR System" %} {% endblock %}</title>
+  <link rel="stylesheet" href="{% if LANGUAGE_BIDI %}{% static 'tabler/css/tabler.rtl.min.css' %}{% else %}{% static 'tabler/css/tabler.min.css' %}{% endif %}">
+  <link rel="stylesheet" href="{% if LANGUAGE_BIDI %}{% static 'tabler/css/tabler-vendors.rtl.min.css' %}{% else %}{% static 'tabler/css/tabler-vendors.min.css' %}{% endif %}">
+  <style>
+    input[type="email"], input[type="tel"], input[type="date"], input[type="time"] {direction:ltr;text-align:start}
+    body, .page {margin-top:0;padding-top:0}
+    .page-wrapper {margin-top:0;padding-top:0}
+    .page-wrapper > header {margin-top:0;top:0}
+  </style>
+  {% block extra_css %}
+    {% endblock %}
+</head>
+<body>
+<div class="page">
+  {% include 'includes/sidebar.html' %}
+  <div class="page-wrapper">
+  <header class="navbar navbar-expand-md d-print-none sticky-top" style="top:0;z-index:1020;background:var(--tblr-bg-surface, #fff)">
+    <div class="container-xl">
+      <h1 class="navbar-brand m-0">{% block page_title %}{% translate "Dashboard" %}{% endblock %}</h1>
+      <div class="navbar-nav flex-row order-md-last align-items-center gap-3">
+        {% include 'includes/language_selector.html' %}
+        <button class="btn btn-icon" id="theme-toggle" type="button" aria-label="{% translate "Switch color theme" %}">&#9680;</button>
+        <div class="nav-item dropdown">
+          <button class="nav-link dropdown-toggle" data-bs-toggle="dropdown" type="button" aria-expanded="false"><span class="avatar avatar-sm me-2">HR</span><span>{{ request.user.username|default:"HR Admin" }}</span></button>
+          <div class="dropdown-menu dropdown-menu-end"><span class="dropdown-header">{{ request.user.email|default:"Interface preview" }}</span><a class="dropdown-item" href="#forms">{% translate "Profile form preview" %}</a><a class="dropdown-item" href="{% url 'logout' %}">{% translate "Log out" %}</a></div>
+        </div>
+      </div>
+    </div>
+  </header>
+    <main class="page-body"><div class="container-xl">
+      {% for message in messages %}
+        <div class="alert alert-{{ message.tags|default:'info' }}" role="alert">{{ message }}</div>
+        {% endfor %}
+      {% block content %}
+      <div class="alert alert-info" role="alert">This is a Tabler interface showcase. Figures, employees and notifications are sample data; forms do not save {% translate "to" %} the database.</div>
+      <div class="row row-deck row-cards mb-4" id="statistics">
+        <div class="col-sm-6 col-lg-3"><div class="card"><div class="card-body"><div class="subheader">{% translate "Total employees" %}</div><div class="h1 mb-3">128</div><div class="text-secondary mb-2">Sample headcount</div><div class="progress progress-sm"><div class="progress-bar bg-primary" style="width:80%" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div></div></div></div></div>
+        <div class="col-sm-6 col-lg-3"><div class="card"><div class="card-body"><div class="subheader">{% translate "Present" %} today</div><div class="h1 mb-3">112</div><div class="text-secondary mb-2">87.5% attendance</div><div class="progress progress-sm"><div class="progress-bar bg-primary" style="width:87.5%" role="progressbar" aria-valuenow="87.5" aria-valuemin="0" aria-valuemax="100"></div></div></div></div></div>
+        <div class="col-sm-6 col-lg-3"><div class="card"><div class="card-body"><div class="subheader">On leave</div><div class="h1 mb-3">8</div><div class="text-secondary mb-2">Approved requests</div><div class="progress progress-sm"><div class="progress-bar bg-primary" style="width:25%" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div></div></div></div></div>
+        <div class="col-sm-6 col-lg-3"><div class="card"><div class="card-body"><div class="subheader">Pending requests</div><div class="h1 mb-3">5</div><div class="text-secondary mb-2">Awaiting review</div><div class="progress progress-sm"><div class="progress-bar bg-primary" style="width:40%" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div></div></div></div></div>
+      </div>
+      <div class="row row-deck row-cards mb-4">
+        <div class="col-lg-8"><section class="card"><div class="card-header"><h2 class="card-title">{% translate "Attendance" %} overview</h2></div><div class="card-body"><div id="attendance-chart" style="min-height:260px" aria-label="Sample weekly attendance chart"></div></div></section></div>
+        <div class="col-lg-4"><section class="card"><div class="card-header"><h2 class="card-title">Recent activity</h2></div><div class="list-group list-group-flush"><div class="list-group-item"><span class="badge bg-green-lt me-2">Approved</span>Annual leave request<div class="text-secondary small mt-1">Demo  -  10 minutes ago</div></div><div class="list-group-item"><span class="badge bg-blue-lt me-2">New</span>{% translate "Employee" %} profile created<div class="text-secondary small mt-1">Demo  -  1 hour ago</div></div><div class="list-group-item"><span class="badge bg-yellow-lt me-2">Review</span>{% translate "Attendance" %} correction<div class="text-secondary small mt-1">Demo  -  2 hours ago</div></div></div></section></div>
+      </div>
+      <section class="card mb-4" id="employees">
+        <div class="card-header"><h2 class="card-title">{% translate "Employees" %}  -  sample records</h2>
+          <div class="ms-auto"><input class="form-control" type="search" id="employee-search" placeholder="Search sample employees" aria-label="Search sample employees"></div>
+        </div>
+        <div class="table-responsive">
+          <table class="table table-vcenter card-table">
+            <thead>
+            <tr>
+              <th>{% translate "Employee" %}</th>
+              <th>{% translate "Department" %}</th>
+              <th>Role</th>
+              <th>{% translate "Status" %}</th>
+            </tr>
+            </thead>
+            <tbody id="employee-rows">
+            <tr>
+              <td>
+                <div class="d-flex align-items-center"><span class="avatar me-3">A</span>
+                  <div>Alex Morgan<div class="text-secondary small">Sample {% translate "employee" %}</div></div></div>
+              </td>
+              <td>Human Resources</td>
+              <td>HR Officer</td>
+              <td><span class="badge bg-green-lt">{% translate "Active" %}</span></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="d-flex align-items-center"><span class="avatar me-3">S</span>
+                  <div>Sam Taylor<div class="text-secondary small">Sample {% translate "employee" %}</div></div></div>
+              </td>
+              <td>Finance</td>
+              <td>Accountant</td>
+              <td><span class="badge bg-yellow-lt">On leave</span></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="d-flex align-items-center"><span class="avatar me-3">J</span>
+                  <div>Jordan Lee<div class="text-secondary small">Sample {% translate "employee" %}</div></div></div>
+              </td>
+              <td>Engineering</td>
+              <td>Developer</td>
+              <td><span class="badge bg-green-lt">{% translate "Active" %}</span></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="d-flex align-items-center"><span class="avatar me-3">C</span>
+                  <div>Casey Brown<div class="text-secondary small">Sample {% translate "employee" %}</div></div></div></td>
+              <td>Operations</td>
+              <td>Coordinator</td>
+              <td><span class="badge bg-green-lt">{% translate "Active" %}</span></td>
+            </tr>
+        </tbody></table></div><div class="card-footer text-secondary" id="employee-count">4 sample employees</div>
+      </section>
+      <div class="row row-cards mb-4">
+        <div class="col-lg-6" id="forms"><section class="card"><div class="card-header"><h2 class="card-title">Form elements</h2></div><div class="card-body"><form id="sample-form">
+          <label class="form-label" for="full-name">{% translate "Full name" %}</label><input class="form-control mb-3" id="full-name" placeholder="{% translate "Employee name" %}" required>
+          <label class="form-label" for="email">{% translate "Email" %}</label><input class="form-control mb-3" id="email" type="email" placeholder="name@example.com" required>
+          <label class="form-label" for="department">{% translate "Department" %}</label><select class="form-select mb-3" id="department"><option>Human Resources</option><option>Finance</option><option>Engineering</option></select>
+          <label class="form-label" for="start-date">Start date</label><input class="form-control mb-3" id="start-date" type="date">
+          <label class="form-label" for="document">Document</label><input class="form-control mb-3" id="document" type="file">
+          <label class="form-check form-switch"><input class="form-check-input" type="checkbox" checked><span class="form-check-label">{% translate "Active employee" %}</span></label>
+          <button class="btn btn-primary mt-3" type="submit">Preview submit</button><p class="text-secondary mt-2" id="form-result" role="status">Demo form: no data is saved.</p>
+        </form></div></section></div>
+        <div class="col-lg-6" id="components"><section class="card"><div class="card-header"><h2 class="card-title">UI components</h2></div><div class="card-body">
+          <div class="btn-list mb-3"><button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#preview-modal">Primary / modal</button><button class="btn btn-outline-secondary" type="button" id="toast-button">Show toast</button><div class="dropdown"><button class="btn dropdown-toggle" data-bs-toggle="dropdown" type="button" aria-expanded="false">Dropdown</button><div class="dropdown-menu"><a class="dropdown-item" href="#employees">{% translate "Employee" %} table</a><a class="dropdown-item" href="#forms">Form elements</a></div></div></div>
+          <div class="mb-3"><span class="badge bg-green-lt">{% translate "Active" %}</span> <span class="badge bg-yellow-lt">Pending</span> <span class="badge bg-red-lt">Rejected</span></div>
+          <div class="alert alert-success" role="alert">Success alert example</div>
+          <ul class="nav nav-tabs" role="tablist"><li class="nav-item"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-overview" type="button" role="tab" aria-controls="tab-overview" aria-selected="true">Overview</button></li><li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-details" type="button" role="tab" aria-controls="tab-details" aria-selected="false">Details</button></li></ul>
+          <div class="tab-content p-3"><div class="tab-pane active" id="tab-overview" role="tabpanel">Reusable cards, forms, tables and navigation.</div><div class="tab-pane" id="tab-details" role="tabpanel">Extend this template and replace the content block with your HR pages.</div></div>
+          <div class="accordion" id="help-accordion"><div class="accordion-item"><h3 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#help-answer" aria-expanded="false" aria-controls="help-answer">How do I reuse this page?</button></h3><div id="help-answer" class="accordion-collapse collapse" data-bs-parent="#help-accordion"><div class="accordion-body">Use Django template inheritance. Blocks are available for title, page_title, content, extra_css and extra_js.</div></div></div></div>
+        </div></section></div>
+      </div>
+      <section class="card" id="example-library"><div class="card-header"><h2 class="card-title">Tabler example library</h2></div><div class="card-body"><p class="text-secondary">These links open the official Tabler examples. They are reference pages, not local HR features.</p><div class="row g-3">
+        <div class="col-md-6 col-xl-4"><h3 class="subheader mb-2">Interface</h3><div class="d-flex flex-wrap gap-2"><a class="btn btn-sm btn-outline-secondary" href="https://preview.tabler.io/alerts.html" target="_blank" rel="noopener noreferrer">Alerts</a><a class="btn btn-sm btn-outline-secondary" href="https://preview.tabler.io/avatars.html" target="_blank" rel="noopener noreferrer">Avatars</a><a class="btn btn-sm btn-outline-secondary" href="https://preview.tabler.io/badges.html" target="_blank" rel="noopener noreferrer">Badges</a><a class="btn btn-sm btn-outline-secondary" href="https://preview.tabler.io/buttons.html" target="_blank" rel="noopener noreferrer">Buttons</a><a class="btn btn-sm btn-outline-secondary" href="https://preview.tabler.io/cards.html" target="_blank" rel="noopener noreferrer">Cards</a><a class="btn btn-sm btn-outline-secondary" href="https://preview.tabler.io/carousel.html" target="_blank" rel="noopener noreferrer">Carousel</a><a class="btn btn-sm btn-outline-secondary" href="https://preview.tabler.io/colors.html" target="_blank" rel="noopener noreferrer">Colors</a><a class="btn btn-sm btn-outline-secondary" href="https://preview.tabler.io/dropdowns.html" target="_blank" rel="noopener noreferrer">Dropdowns</a><a class="btn btn-sm btn-outline-secondary" href="https://preview.tabler.io/lists.html" target="_blank" rel="noopener noreferrer">Lists</a><a class="btn btn-sm btn-outline-secondary" href="https://preview.tabler.io/modals.html" target="_blank" rel="noopener noreferrer">Modals</a><a class="btn btn-sm btn-outline-secondary" href="https://preview.tabler.io/navigation.html" target="_blank" rel="noopener noreferrer">Navigation</a><a class="btn btn-sm btn-outline-secondary" href="https://preview.tabler.io/offcanvas.html" target="_blank" rel="noopener noreferrer">Offcanvas</a><a class="btn btn-sm btn-outline-secondary" href="https://preview.tabler.io/pagination.html" target="_blank" rel="noopener noreferrer">Pagination</a><a class="btn btn-sm btn-outline-secondary" href="https://preview.tabler.io/progress.html" target="_blank" rel="noopener noreferrer">Progress</a><a class="btn btn-sm btn-outline-secondary" href="https://preview.tabler.io/tables.html" target="_blank" rel="noopener noreferrer">Tables</a><a class="btn btn-sm btn-outline-secondary" href="https://preview.tabler.io/tabs.html" target="_blank" rel="noopener noreferrer">Tabs</a><a class="btn btn-sm btn-outline-secondary" href="https://preview.tabler.io/toasts.html" target="_blank" rel="noopener noreferrer">Toasts</a><a class="btn btn-sm btn-outline-secondary" href="https://preview.tabler.io/typography.html" target="_blank" rel="noopener noreferrer">Typography</a></div></div>
+        <div class="col-md-6 col-xl-4"><h3 class="subheader mb-2">Forms</h3><div class="d-flex flex-wrap gap-2"><a class="btn btn-sm btn-outline-secondary" href="https://preview.tabler.io/form-elements.html" target="_blank" rel="noopener noreferrer">Form Elements</a><a class="btn btn-sm btn-outline-secondary" href="https://preview.tabler.io/form-layout.html" target="_blank" rel="noopener noreferrer">Form Layout</a><a class="btn btn-sm btn-outline-secondary" href="https://preview.tabler.io/form-validation.html" target="_blank" rel="noopener noreferrer">Form Validation</a></div></div>
+        <div class="col-md-6 col-xl-4"><h3 class="subheader mb-2">Authentication</h3><div class="d-flex flex-wrap gap-2"><a class="btn btn-sm btn-outline-secondary" href="https://preview.tabler.io/sign-in.html" target="_blank" rel="noopener noreferrer">Sign In</a><a class="btn btn-sm btn-outline-secondary" href="https://preview.tabler.io/sign-up.html" target="_blank" rel="noopener noreferrer">Sign Up</a><a class="btn btn-sm btn-outline-secondary" href="https://preview.tabler.io/forgot-password.html" target="_blank" rel="noopener noreferrer">Forgot {% translate "Password" %}</a><a class="btn btn-sm btn-outline-secondary" href="https://preview.tabler.io/lock-screen.html" target="_blank" rel="noopener noreferrer">Lock Screen</a><a class="btn btn-sm btn-outline-secondary" href="https://preview.tabler.io/2-step-verification.html" target="_blank" rel="noopener noreferrer">2 Step Verification</a></div></div>
+        <div class="col-md-6 col-xl-4"><h3 class="subheader mb-2">Extra pages</h3><div class="d-flex flex-wrap gap-2"><a class="btn btn-sm btn-outline-secondary" href="https://preview.tabler.io/activity.html" target="_blank" rel="noopener noreferrer">Activity</a><a class="btn btn-sm btn-outline-secondary" href="https://preview.tabler.io/chat.html" target="_blank" rel="noopener noreferrer">Chat</a><a class="btn btn-sm btn-outline-secondary" href="https://preview.tabler.io/empty.html" target="_blank" rel="noopener noreferrer">Empty</a><a class="btn btn-sm btn-outline-secondary" href="https://preview.tabler.io/faq.html" target="_blank" rel="noopener noreferrer">Faq</a><a class="btn btn-sm btn-outline-secondary" href="https://preview.tabler.io/gallery.html" target="_blank" rel="noopener noreferrer">Gallery</a><a class="btn btn-sm btn-outline-secondary" href="https://preview.tabler.io/invoice.html" target="_blank" rel="noopener noreferrer">Invoice</a><a class="btn btn-sm btn-outline-secondary" href="https://preview.tabler.io/pricing.html" target="_blank" rel="noopener noreferrer">Pricing</a><a class="btn btn-sm btn-outline-secondary" href="https://preview.tabler.io/settings.html" target="_blank" rel="noopener noreferrer">Settings</a><a class="btn btn-sm btn-outline-secondary" href="https://preview.tabler.io/users.html" target="_blank" rel="noopener noreferrer">Users</a><a class="btn btn-sm btn-outline-secondary" href="https://preview.tabler.io/widgets.html" target="_blank" rel="noopener noreferrer">Widgets</a><a class="btn btn-sm btn-outline-secondary" href="https://preview.tabler.io/wizard.html" target="_blank" rel="noopener noreferrer">Wizard</a></div></div>
+        <div class="col-md-6 col-xl-4"><h3 class="subheader mb-2">Layouts</h3><div class="d-flex flex-wrap gap-2"><a class="btn btn-sm btn-outline-secondary" href="https://preview.tabler.io/layout-boxed.html" target="_blank" rel="noopener noreferrer">Layout Boxed</a><a class="btn btn-sm btn-outline-secondary" href="https://preview.tabler.io/layout-fluid.html" target="_blank" rel="noopener noreferrer">Layout Fluid</a><a class="btn btn-sm btn-outline-secondary" href="https://preview.tabler.io/layout-horizontal.html" target="_blank" rel="noopener noreferrer">Layout Horizontal</a><a class="btn btn-sm btn-outline-secondary" href="https://preview.tabler.io/layout-vertical.html" target="_blank" rel="noopener noreferrer">Layout Vertical</a><a class="btn btn-sm btn-outline-secondary" href="https://preview.tabler.io/layout-rtl.html" target="_blank" rel="noopener noreferrer">Layout Rtl</a></div></div>
+        <div class="col-md-6 col-xl-4"><h3 class="subheader mb-2">Plugins</h3><div class="d-flex flex-wrap gap-2"><a class="btn btn-sm btn-outline-secondary" href="https://preview.tabler.io/charts.html" target="_blank" rel="noopener noreferrer">Charts</a><a class="btn btn-sm btn-outline-secondary" href="https://preview.tabler.io/charts-advanced.html" target="_blank" rel="noopener noreferrer">Charts Advanced</a><a class="btn btn-sm btn-outline-secondary" href="https://preview.tabler.io/datatables.html" target="_blank" rel="noopener noreferrer">Datatables</a><a class="btn btn-sm btn-outline-secondary" href="https://preview.tabler.io/dropzone.html" target="_blank" rel="noopener noreferrer">Dropzone</a><a class="btn btn-sm btn-outline-secondary" href="https://preview.tabler.io/fullcalendar.html" target="_blank" rel="noopener noreferrer">Fullcalendar</a><a class="btn btn-sm btn-outline-secondary" href="https://preview.tabler.io/maps.html" target="_blank" rel="noopener noreferrer">Maps</a><a class="btn btn-sm btn-outline-secondary" href="https://preview.tabler.io/wysiwyg.html" target="_blank" rel="noopener noreferrer">Wysiwyg</a></div></div>
+      </div><a class="btn btn-link mt-3" href="https://preview.tabler.io/" target="_blank" rel="noopener noreferrer">Open the full official preview</a></div></section>
+      {% endblock %}
+    </div></main>
+    <footer class="footer footer-transparent d-print-none"><div class="container-xl"><div class="row align-items-center"><div class="col text-end"> &copy; {% now "Y" %} {% translate "HR System" %}</div></div></div></footer>
+  </div>
+</div>
+<div class="modal fade" id="preview-modal" tabindex="-1" aria-labelledby="preview-modal-title" aria-hidden="true"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><h2 class="modal-title" id="preview-modal-title">Tabler modal preview</h2><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button></div><div class="modal-body">This modal is ready {% translate "to" %} reuse for {% translate "employee" %} forms and confirmations.</div><div class="modal-footer"><button class="btn" type="button" data-bs-dismiss="modal">Close</button></div></div></div></div>
+<div class="toast-container position-fixed bottom-0 end-0 p-3"><div class="toast" id="preview-toast" role="status" aria-live="polite" aria-atomic="true"><div class="toast-header"><strong class="me-auto">{% translate "HR System" %}</strong><button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button></div><div class="toast-body">Tabler toast example. No data was changed.</div></div></div>
+<script src="{% static 'tabler/js/tabler.min.js' %}"></script>
+{% block chart_library %}{% endblock %}
+<script>
+(() => {
+  const search = document.getElementById('employee-search');
+  if (search) search.addEventListener('input', () => {
+    let count = 0;
+    document.querySelectorAll('#employee-rows tr').forEach(row => {
+      row.hidden = !row.textContent.toLowerCase().includes(search.value.toLowerCase());
+      if (!row.hidden) count++;
+    });
+    document.getElementById('employee-count').textContent = count + ' matching sample employees';
+  });
+  document.getElementById('sample-form')?.addEventListener('submit', event => {
+    event.preventDefault();
+    document.getElementById('form-result').textContent = 'Form validation passed. This preview does not save data.';
+  });
+  document.getElementById('toast-button')?.addEventListener('click', () => {
+    if (window.bootstrap?.Toast) bootstrap.Toast.getOrCreateInstance(document.getElementById('preview-toast')).show();
+  });
+  const chart = document.getElementById('attendance-chart');
+  if (chart && window.ApexCharts) new ApexCharts(chart, {
+    chart: {type:'area', height:260, toolbar:{show:false}},
+    series:[{name:'Present (sample)',data:[110,114,108,118,112]}],
+    xaxis:{categories:['Monday','Tuesday','Wednesday','Thursday','Friday']},
+    colors:['#206bc4'], dataLabels:{enabled:false}, stroke:{curve:'smooth'},
+    fill:{type:'gradient',gradient:{opacityFrom:0.3,opacityTo:0.05}},
+    yaxis:{min:0,max:128}, grid:{borderColor:'#e6e7e9'}
+  }).render();
+  else if (chart) chart.textContent = 'Sample attendance: Mon 110  -  Tue 114  -  Wed 108  -  Thu 118  -  Fri 112';
+})();
+</script>
+{% block extra_js %}{% endblock %}
+</body>
+</html>
+
+
+
+

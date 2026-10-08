@@ -1,0 +1,15 @@
+{% load i18n %}
+{% get_current_language as current_language %}
+<div class="nav-item dropdown">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Select language">
+    {% if current_language == 'ar' %}العربية{% else %}English{% endif %}
+  </button>
+  <div class="dropdown-menu dropdown-menu-end">
+    <form action="{% url 'set_language' %}" method="post">
+      {% csrf_token %}
+      <input type="hidden" name="next" value="{{ request.get_full_path }}">
+      <button class="dropdown-item" type="submit" name="language" value="ar" lang="ar" dir="rtl">العربية</button>
+      <button class="dropdown-item" type="submit" name="language" value="en" lang="en" dir="ltr">English</button>
+    </form>
+  </div>
+</div>
